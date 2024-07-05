@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="autores">
+          <Key>
+            <PropertyRef Name="autor_nome" />
+          </Key>
+          <Property Name="autor_nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="emprestimos">
+          <Key>
+            <PropertyRef Name="numero_emprestimo" />
+          </Key>
+          <Property Name="numero_emprestimo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Emp_id_cliente" Type="int" />
+          <Property Name="Emp_livro_ID" Type="int" />
+          <Property Name="Data_Emprestimo" Type="date" Nullable="false" />
+          <Property Name="Data_Devolucao" Type="date" />
+        </EntityType>
+        <EntityType Name="livros">
+          <Key>
+            <PropertyRef Name="livro_ID" />
+          </Key>
+          <Property Name="livro_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="titulo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="autor" Type="nvarchar" MaxLength="100" />
+          <Property Name="ano" Type="int" />
+          <Property Name="disponivel" Type="bit" Nullable="false" />
+          <Property Name="preco" Type="float" />
+          <Property Name="fotopath" Type="nchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\DANIE\DESKTOP\GIT HUB - REPOS\PROJETO TI3\PROJETO TI3\PROJETO TI3\APP_DATA\DATABASE.MDF.dbo.v_emprestimos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_emprestimos">
+          <Key>
+            <PropertyRef Name="livro_ID" />
+            <PropertyRef Name="titulo" />
+            <PropertyRef Name="disponivel" />
+            <PropertyRef Name="total" />
+          </Key>
+          <Property Name="livro_ID" Type="int" Nullable="false" />
+          <Property Name="titulo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="autor" Type="nvarchar" MaxLength="100" />
+          <Property Name="ano" Type="int" />
+          <Property Name="disponivel" Type="bit" Nullable="false" />
+          <Property Name="preco" Type="float" />
+          <Property Name="total" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\DANIE\DESKTOP\GIT HUB - REPOS\PROJETO TI3\PROJETO TI3\PROJETO TI3\APP_DATA\DATABASE.MDF.dbo.v_livros' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_livros">
+          <Key>
+            <PropertyRef Name="livro_ID" />
+            <PropertyRef Name="titulo" />
+            <PropertyRef Name="disponivel" />
+          </Key>
+          <Property Name="livro_ID" Type="int" Nullable="false" />
+          <Property Name="titulo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="autor" Type="nvarchar" MaxLength="100" />
+          <Property Name="ano" Type="int" />
+          <Property Name="disponivel" Type="bit" Nullable="false" />
+          <Property Name="preco" Type="float" />
+          <Property Name="fotopath" Type="nchar" MaxLength="255" />
+          <Property Name="total" Type="int" />
+        </EntityType>
+        <Association Name="FK__emprestim__Emp_l__7A672E12">
+          <End Role="livros" Type="Self.livros" Multiplicity="0..1" />
+          <End Role="emprestimos" Type="Self.emprestimos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="livros">
+              <PropertyRef Name="livro_ID" />
+            </Principal>
+            <Dependent Role="emprestimos">
+              <PropertyRef Name="Emp_livro_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_autores">
+          <End Role="autores" Type="Self.autores" Multiplicity="0..1" />
+          <End Role="livros" Type="Self.livros" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="autores">
+              <PropertyRef Name="autor_nome" />
+            </Principal>
+            <Dependent Role="livros">
+              <PropertyRef Name="autor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DatabaseModelStoreContainer">
+          <EntitySet Name="autores" EntityType="Self.autores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emprestimos" EntityType="Self.emprestimos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="livros" EntityType="Self.livros" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_emprestimos" EntityType="Self.v_emprestimos" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_emprestimos].[livro_ID] AS [livro_ID], 
+    [v_emprestimos].[titulo] AS [titulo], 
+    [v_emprestimos].[autor] AS [autor], 
+    [v_emprestimos].[ano] AS [ano], 
+    [v_emprestimos].[disponivel] AS [disponivel], 
+    [v_emprestimos].[preco] AS [preco], 
+    [v_emprestimos].[total] AS [total]
+    FROM [dbo].[v_emprestimos] AS [v_emprestimos]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_livros" EntityType="Self.v_livros" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_livros].[livro_ID] AS [livro_ID], 
+    [v_livros].[titulo] AS [titulo], 
+    [v_livros].[autor] AS [autor], 
+    [v_livros].[ano] AS [ano], 
+    [v_livros].[disponivel] AS [disponivel], 
+    [v_livros].[preco] AS [preco], 
+    [v_livros].[fotopath] AS [fotopath], 
+    [v_livros].[total] AS [total]
+    FROM [dbo].[v_livros] AS [v_livros]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__emprestim__Emp_l__7A672E12" Association="Self.FK__emprestim__Emp_l__7A672E12">
+            <End Role="livros" EntitySet="livros" />
+            <End Role="emprestimos" EntitySet="emprestimos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_autores" Association="Self.FK_autores">
+            <End Role="autores" EntitySet="autores" />
+            <End Role="livros" EntitySet="livros" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="emprestimo">
+          <Key>
+            <PropertyRef Name="numero_emprestimo" />
+          </Key>
+          <Property Name="numero_emprestimo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Emp_id_cliente" Type="Int32" />
+          <Property Name="Emp_livro_ID" Type="Int32" />
+          <Property Name="Data_Emprestimo" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Data_Devolucao" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="livro" Relationship="Self.FK__emprestim__Emp_l__7A672E12" FromRole="emprestimos" ToRole="livros" />
+        </EntityType>
+        <EntityType Name="livro">
+          <Key>
+            <PropertyRef Name="livro_ID" />
+          </Key>
+          <Property Name="livro_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="titulo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="autor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ano" Type="Int32" />
+          <Property Name="disponivel" Type="Boolean" Nullable="false" />
+          <Property Name="preco" Type="Double" />
+          <NavigationProperty Name="emprestimos" Relationship="Self.FK__emprestim__Emp_l__7A672E12" FromRole="livros" ToRole="emprestimos" />
+          <Property Name="fotopath" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="autore" Relationship="DatabaseModel.FK_autores" FromRole="livro" ToRole="autore" />
+        </EntityType>
+        <Association Name="FK__emprestim__Emp_l__7A672E12">
+          <End Role="livros" Type="Self.livro" Multiplicity="0..1" />
+          <End Role="emprestimos" Type="Self.emprestimo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="livros">
+              <PropertyRef Name="livro_ID" />
+            </Principal>
+            <Dependent Role="emprestimos">
+              <PropertyRef Name="Emp_livro_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DatabaseEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="emprestimos" EntityType="Self.emprestimo" />
+          <EntitySet Name="livros" EntityType="Self.livro" />
+          <AssociationSet Name="FK__emprestim__Emp_l__7A672E12" Association="Self.FK__emprestim__Emp_l__7A672E12">
+            <End Role="livros" EntitySet="livros" />
+            <End Role="emprestimos" EntitySet="emprestimos" />
+          </AssociationSet>
+          <EntitySet Name="v_emprestimos" EntityType="DatabaseModel.v_emprestimos" />
+          <EntitySet Name="v_livros" EntityType="DatabaseModel.v_livros" />
+          <EntitySet Name="autores" EntityType="DatabaseModel.autore" />
+          <AssociationSet Name="FK_autores" Association="DatabaseModel.FK_autores">
+            <End Role="autore" EntitySet="autores" />
+            <End Role="livro" EntitySet="livros" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="v_emprestimos">
+          <Key>
+            <PropertyRef Name="livro_ID" />
+            <PropertyRef Name="titulo" />
+            <PropertyRef Name="disponivel" />
+            <PropertyRef Name="total" />
+          </Key>
+          <Property Name="livro_ID" Type="Int32" Nullable="false" />
+          <Property Name="titulo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="autor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ano" Type="Int32" />
+          <Property Name="disponivel" Type="Boolean" Nullable="false" />
+          <Property Name="preco" Type="Double" />
+          <Property Name="total" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="v_livros">
+          <Key>
+            <PropertyRef Name="livro_ID" />
+            <PropertyRef Name="titulo" />
+            <PropertyRef Name="disponivel" />
+          </Key>
+          <Property Name="livro_ID" Type="Int32" Nullable="false" />
+          <Property Name="titulo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="autor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ano" Type="Int32" />
+          <Property Name="disponivel" Type="Boolean" Nullable="false" />
+          <Property Name="preco" Type="Double" />
+          <Property Name="fotopath" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="total" Type="Int32" />
+        </EntityType>
+        <EntityType Name="autore">
+          <Key>
+            <PropertyRef Name="autor_nome" />
+          </Key>
+          <Property Name="autor_nome" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="livros" Relationship="DatabaseModel.FK_autores" FromRole="autore" ToRole="livro" />
+        </EntityType>
+        <Association Name="FK_autores">
+          <End Type="DatabaseModel.autore" Role="autore" Multiplicity="0..1" />
+          <End Type="DatabaseModel.livro" Role="livro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="autore">
+              <PropertyRef Name="autor_nome" />
+            </Principal>
+            <Dependent Role="livro">
+              <PropertyRef Name="autor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DatabaseEntities1">
+          <EntitySetMapping Name="emprestimos">
+            <EntityTypeMapping TypeName="DatabaseModel.emprestimo">
+              <MappingFragment StoreEntitySet="emprestimos">
+                <ScalarProperty Name="numero_emprestimo" ColumnName="numero_emprestimo" />
+                <ScalarProperty Name="Emp_id_cliente" ColumnName="Emp_id_cliente" />
+                <ScalarProperty Name="Emp_livro_ID" ColumnName="Emp_livro_ID" />
+                <ScalarProperty Name="Data_Emprestimo" ColumnName="Data_Emprestimo" />
+                <ScalarProperty Name="Data_Devolucao" ColumnName="Data_Devolucao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="livros">
+            <EntityTypeMapping TypeName="DatabaseModel.livro">
+              <MappingFragment StoreEntitySet="livros">
+                <ScalarProperty Name="fotopath" ColumnName="fotopath" />
+                <ScalarProperty Name="livro_ID" ColumnName="livro_ID" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="autor" ColumnName="autor" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+                <ScalarProperty Name="disponivel" ColumnName="disponivel" />
+                <ScalarProperty Name="preco" ColumnName="preco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_emprestimos">
+            <EntityTypeMapping TypeName="DatabaseModel.v_emprestimos">
+              <MappingFragment StoreEntitySet="v_emprestimos">
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="preco" ColumnName="preco" />
+                <ScalarProperty Name="disponivel" ColumnName="disponivel" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+                <ScalarProperty Name="autor" ColumnName="autor" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="livro_ID" ColumnName="livro_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_livros">
+            <EntityTypeMapping TypeName="DatabaseModel.v_livros">
+              <MappingFragment StoreEntitySet="v_livros">
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="fotopath" ColumnName="fotopath" />
+                <ScalarProperty Name="preco" ColumnName="preco" />
+                <ScalarProperty Name="disponivel" ColumnName="disponivel" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+                <ScalarProperty Name="autor" ColumnName="autor" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="livro_ID" ColumnName="livro_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="autores">
+            <EntityTypeMapping TypeName="DatabaseModel.autore">
+              <MappingFragment StoreEntitySet="autores">
+                <ScalarProperty Name="autor_nome" ColumnName="autor_nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
