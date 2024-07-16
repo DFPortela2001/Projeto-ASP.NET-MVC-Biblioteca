@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "Contactos";
+}
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
+
+    <div class="contactos">
+        <form id="contact" action="https://formspree.io/f/xkndggng" method="post">
+            <h3>Entre já em contacto!</h3>
+            <form action="https://formspree.io/engomadoria.beta@gmail.com" method="POST">
+                <br> <input placeholder="O seu nome: " type="text" id="name" name="name" required autofocus><br>
+                <input placeholder="O seu Email: " type="email" id="email" name="_replyto" required><br>
+                <input placeholder="O seu número de telefone" type="tel" required>
+                <textarea placeholder="Escreva aqui a sua questão: " id="message" name="message" rows="4" cols="50" required></textarea><br>
+                <fieldset>
+                    <button class="bg-success mt-2" name="submit" type="submit" id="contact-submit" data-submit="...Sending">Enviar</button>
+                </fieldset>
+                <p>Alternativamente poderá ligar para:</p>
+                <ul>
+                    <li>Telemóvel: +351 93 47 54 818
+                    <li>Email: daniel.portela@my.istec.com</li>
+                    <li>Telefone: 218 000 888</li>
+                </ul>
+            </form>
+    </div>
+
+
+    <body>
+        <div class="map">
+            <h5 style="text-align: center;">Encontre-nos aqui!</h5>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d99498.01797744159!2d-9.213805266232294!3d38.80237947716111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd192f0a80f19099%3A0x7042fec12e2be5f!2sEngomadoria%20Beta!5e0!3m2!1spt-PT!2spt!4v1703805768120!5m2!1spt-PT!2spt" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </body>
+
+
+
+    <address>
+
+        <strong>Support:</strong>   <a href="mailto:daniel.portela@my.istec.pt">daniel.portela@my.istec.pt</a><br />
+    </address>
+</main>
+
+<style>
+    .contactos {
+        margin: auto;
+        width: 45%;
+        border: 3px;
+        padding: 10px;
+    }
+    .map {
+        margin: auto;
+        width: 45%;
+        border: 3px;
+        padding: 10px;
+    }
+    #contact input[type="text"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact textarea, #contact button[type="submit"] {
+        font: 400 12px/16px "Open Sans", Helvetica, Arial, sans-serif;
+    }
+
+    #contact {
+        background: #F9F9F9;
+        padding: 25px;
+        margin: 50px 0;
+    }
+
+        #contact h3 {
+            color: #4296BB;
+            display: block;
+            font-size: 30px;
+            font-weight: 400;
+        }
+
+        #contact h4 {
+            margin: 5px 0 15px;
+            display: block;
+            font-size: 13px;
+        }
+
+    fieldset {
+        border: medium none !important;
+        margin: 0 0 10px;
+        min-width: 100%;
+        padding: 0;
+        width: 100%;
+    }
+
+    #contact input[type="text"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact textarea {
+        width: 100%;
+        border: 1px solid #CCC;
+        background: #FFF;
+        margin: 0 0 5px;
+        padding: 10px;
+    }
+
+        #contact input[type="text"]:hover, #contact input[type="email"]:hover, #contact input[type="tel"]:hover, #contact input[type="url"]:hover, #contact textarea:hover {
+            -webkit-transition: border-color 0.3s ease-in-out;
+            -moz-transition: border-color 0.3s ease-in-out;
+            transition: border-color 0.3s ease-in-out;
+            border: 1px solid #AAA;
+        }
+
+    #contact textarea {
+        height: 100px;
+        max-width: 100%;
+        resize: none;
+    }
+
+    #contact button[type="submit"] {
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        background: #4296BB;
+        color: #FFF;
+        margin: 0 0 5px;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+        #contact button[type="submit"]:hover {
+            background: #09C;
+            -webkit-transition: background 0.3s ease-in-out;
+            -moz-transition: background 0.3s ease-in-out;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        #contact button[type="submit"]:active {
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+    #contact input:focus, #contact textarea:focus {
+        outline: 0;
+        border: 1px solid #999;
+    }
+
+    ::-webkit-input-placeholder {
+        color: #888;
+    }
+
+    :-moz-placeholder {
+        color: #888;
+    }
+
+    ::-moz-placeholder {
+        color: #888;
+    }
+
+    :-ms-input-placeholder {
+        color: #888;
+    }
+</style>

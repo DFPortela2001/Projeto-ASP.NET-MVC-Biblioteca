@@ -1,0 +1,119 @@
+﻿@model Projeto_TI3.Models.livro
+
+@{
+    ViewBag.Title = "DetailsLivros";
+}
+
+<h2>DetailsLivros</h2>
+
+<div>
+    <h4>livro</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ano)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ano)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.disponivel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.disponivel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.preco)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.preco)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fotopath)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.fotopath)
+        </dt>
+        <dd>
+            @if (Model.fotopath != null)
+            {
+                <img width="200" src="@Url.Content("~/Fotos/" + Model.fotopath)" />
+            }
+            else
+            {
+                <img width="200" src="@Url.Content("~/Fotos/book_Default.png")" />
+            }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autore.autor_nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autore.autor_nome)
+        </dd>
+    </dl>
+</div>
+<h3>Lista de Emprestimos</h3>
+@{
+    Html.RenderAction("livrosemprestimos", new { id = Model.livro_ID });
+}
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.livro_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+<div class="modal" tabindex="-1" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tit"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalbody">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+     $(function () {
+         $("[name='btedit']").click((evt) => {
+             evt = evt ? evt : window.event;
+             evt.preventDefault();
+             //alert(evt.target.id);
+             $("#tit").html(evt.target.id);
+             $("#modalbody").load("/Livros/editaremprestimo?id=" + evt.target.id, function () {
+                 $("#mymodal").modal('show');
+             });
+
+         });
+
+     });
+
+    </script>
+
+}

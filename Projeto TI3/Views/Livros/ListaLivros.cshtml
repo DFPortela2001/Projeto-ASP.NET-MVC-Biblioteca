@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Projeto_TI3.Models.v_livros>
+
+@{
+    ViewBag.Title = "ListaLivros";
+}
+
+<h2>Lista de Livros</h2>
+<h3 class="text-danger">@ViewBag.msg</h3>
+
+<p>
+    @Html.ActionLink("Create New", "InserirLivro")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.livro_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.titulo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.autor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ano)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.preco)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fotopath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.total)
+        </th>
+        <th>Foto</th>
+        <th>Comandos</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.livro_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.autor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ano)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.preco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fotopath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.total)
+            </td>
+            <td>
+                @if (item.fotopath == null)
+                {
+                    <img style="width:70px" src="@Url.Content("~/Fotos/book_Default.png")" />
+                }
+                else
+                {
+                    <img style="width:70px" src="@Url.Content("~/Fotos/" + item.fotopath)" />
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditarLivros", new { id = item.livro_ID }) |
+                @Html.ActionLink("Details", "DetailsLivros", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", null, null, null, new { @class = "btn btn-danger", id = item.livro_ID, name = "btdel" })
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <script>
+       $(function () {
+           $("[name='btdel']").click((evt) => {
+               evt = evt ? evt : window.event;
+               evt.preventDefault();
+               let livro_ID = evt.target.id;
+               let ok = confirm("O registo será apagado permanentemente, tem a certeza?");
+               if (!ok) return false;
+               $.ajax({
+                   url:'@Url.Action("DeleteLivro","Livros")',
+                   method: 'post',
+                   dataType: 'json',
+                   data: { id: livro_ID },
+                   success: function (dados) {
+                       console.log(dados);
+                       if (dados.msg == 'ok') {
+                           $(evt.target).closest('tr').remove();
+                       }
+                       $("#visor").html(dados.msg);
+                   },
+                   error: function (erro) {
+                       alert('erro');
+                   }
+
+               });
+           });
+
+       });
+    </script>
+
+}
